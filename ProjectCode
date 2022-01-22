@@ -1,0 +1,626 @@
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class DosyaLar {
+  public static void main(String[] args) {
+        Folder f1=new Folder();
+        f1.dosyaIslemSistemi();
+        
+        
+    }
+}
+
+class Dosya {
+
+    Scanner scan = new Scanner(System.in);
+    int dosyaBoyutu;
+    String dosyaIsmi;
+    String dosyaUzantisi;
+
+    public Dosya(String dosyaIsmi) {
+//        this.dosyaBoyutu = dosyaBoyutu;
+        this.dosyaIsmi = dosyaIsmi;
+//        this.dosyaUzantisi = dosyaUzantisi;
+    }
+
+    int getDosyaBoyutu() {
+        return dosyaBoyutu;
+    }
+
+    void setDosyaBoyutu(int dosyaBoyutu) {
+        this.dosyaBoyutu = dosyaBoyutu;
+    }
+
+    String getDosyaIsmi() {
+        return dosyaIsmi;
+    }
+
+    void setDosyaIsmi(String dosyaIsmi) {
+        this.dosyaIsmi = dosyaIsmi;
+    }
+
+    String getDosyaUzantisi() {
+        return dosyaUzantisi;
+    }
+
+    void setDosyaUzantisi(String dosyaUzantisi) {
+        this.dosyaUzantisi = dosyaUzantisi;
+    }
+
+    void DosyaKopyalama(String DosyaIsmi) {
+        this.dosyaIsmi = DosyaIsmi;
+    }
+
+    void dosyaBilgiGoster(Dosya girdi) {
+        this.dosyaUzantisi = girdi.dosyaUzantisi;
+        System.out.println(girdi.dosyaIsmi + "." + girdi.dosyaUzantisi + "  ");
+
+    }
+
+    void dosyayiAc() {
+        System.out.println("dosya başarıyla açıldı.");
+    }
+
+    @Override
+    public String toString() {
+        return "dosya:" + dosyaIsmi + "." + dosyaUzantisi;
+    }
+}
+
+class Excel extends Dosya {
+
+    static String dosyaUzantisi = "xlsx";
+    private int satirSayisi;
+    private int sutunSayisi;
+    Scanner scan = new Scanner(System.in);
+    String[][] excelmatris = new String[satirSayisi][sutunSayisi];
+
+    public Excel(String dosyaIsmi) {
+        super(dosyaIsmi);
+
+    }
+
+    @Override
+    public void setDosyaUzantisi(String dosyaUzantisi) {
+        this.dosyaUzantisi = dosyaUzantisi;
+        super.setDosyaUzantisi(dosyaUzantisi);
+
+    }
+
+    @Override
+    public void dosyaBilgiGoster(Dosya girdi) {
+        setDosyaUzantisi(dosyaUzantisi);
+        super.dosyaBilgiGoster(girdi);
+
+    }
+
+    public void dosyayiAc() {
+        if (satirSayisi == 0 && sutunSayisi == 0) {
+            System.out.println("şuanki excel dosyası boş.");
+            System.out.println("Satır sayısını giriniz:");
+            int girdi = scan.nextInt();
+            this.satirSayisi = girdi;
+            System.out.println("Sütun sayısını giriniz:");
+            int girdi1 = scan.nextInt();
+            this.sutunSayisi = girdi1;
+            System.out.println("şuanda bu excel dosyasında:");
+            System.out.println(satirSayisi + "satır");
+            System.out.println(sutunSayisi + "sütun bulunamktadır.");
+        } else {
+            System.out.println("şuanda bu excel dosyasında:");
+            System.out.println(satirSayisi + "satır");
+            System.out.println(sutunSayisi + "sütun bulunamktadır.");
+        }
+    }
+}
+
+class Word extends Dosya {
+
+    Scanner scan = new Scanner(System.in);
+    String dosyaUzantisi = "doc";
+    ArrayList<String> metin = new ArrayList<String>();
+
+    public Word(String dosyaIsmi) {
+        super(dosyaIsmi);
+        this.dosyaUzantisi = dosyaUzantisi;
+        ArrayList<String> metin2 = new ArrayList<String>();
+    }
+
+    void metinYazveKaydet() {
+        int MaksKelimeSayisi = 2560;
+        System.out.println("--------------------------");
+        System.out.println("yazcağınız metni yazınız. metin yazma işlemi bittikten"
+                + " sonra enter'a basınız ve klavyenizden ! tuşuna basınız");
+        System.out.println(" ");
+        int i = 0;
+        while (i < MaksKelimeSayisi) {
+            if (!metin.contains("!")) {
+
+                String tarananMetin = scan.next();
+                metin.add(tarananMetin);
+            } else {
+                metin.remove(metin.size() - 1);
+                break;
+            }
+        }
+        System.out.println("metni görmek ister misiniz? Görmek için y'ye, iptal etmek için n'ye tıklayınız.");
+        char y1 = scan.next().charAt(0);
+
+        if (y1 == 'y') {
+            for (int j = 0; j < metin.size(); j++) {
+                System.out.print(" " + metin.get(j) + " ");
+
+            }
+            System.out.println("");
+        } else if (y1 == 'n') {
+            System.out.println("İşlem İptal Edildi.");
+        } else {
+            System.out.println("y veya n seçmeniz gerekir.");
+        }
+    }
+
+    public void dosyayiAc() {
+        super.dosyayiAc();
+        metinYazveKaydet();
+        System.out.println("dosya başarıyla açıldı.");
+    }
+
+    @Override
+    public void setDosyaUzantisi(String dosyaUzantisi) {
+        this.dosyaUzantisi = dosyaUzantisi;
+        super.setDosyaUzantisi(dosyaUzantisi);
+
+    }
+
+    @Override
+    public void dosyaBilgiGoster(Dosya girdi) {
+        setDosyaUzantisi(dosyaUzantisi);
+        super.dosyaBilgiGoster(girdi);
+
+    }
+
+}
+
+class Folder extends Object {
+
+    Scanner scan = new Scanner(System.in);
+    String folderName;
+    ArrayList<Object> contents;
+
+    public Folder() {
+
+    }
+
+    public Folder(String folderName) {
+        this.folderName = folderName;
+        contents = new ArrayList<>();
+    }
+
+    void AnaKlasorOlustur() {
+        Folder mainFolder = new Folder("main");
+        this.contents = mainFolder.contents;
+        this.folderName = mainFolder.folderName;
+    }
+
+    boolean folderstringvarMi(String aranan) {
+        boolean VAR = false;
+        for (int i = 0; i < contents.size(); i++) {
+            if (aranan.matches((contents.get(i)).toString())) {
+                VAR = true;
+                return VAR;
+            } else {
+                VAR = false;
+                return VAR;
+            }
+        }
+        if (VAR == true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    boolean dosyastringvarMi(String aranan) {
+        boolean VAR = false;
+        for (int i = 0; i < contents.size(); i++) {
+            if (aranan.matches((contents.get(i)).toString())) {
+                VAR = true;
+                return VAR;
+            } else {
+                VAR = false;
+                return VAR;
+            }
+        }
+        if (VAR == true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //kLASOR ISLEMLERI//
+    void yeniKlasorOlusturma() {
+        System.out.println("Klasörün ismini giriniz:");
+        boolean hulk;
+        do {
+            String newFolderName = scan.next();
+            if (!folderstringvarMi(newFolderName)) {
+                Folder newfolder = new Folder(newFolderName);
+                //oluştutulan klasör ana klasöre ekleniyor
+                contents.add(newfolder);
+                hulk = false;
+                break;
+            } else {
+                System.out.println("Aynı isimde Klasör oluşturulamaz. Yeni bir isim giriniz.");
+                hulk = true;
+            }
+        } while (hulk);
+
+    }
+
+    //METHOD OVERLOADING//
+    void KlasoruGoster() {
+        for (int i = 0; i < contents.size(); i++) {
+            System.out.println(contents.get(i));
+        }
+    }
+
+    void KlasoruGoster(Folder f1) {
+        for (int i = 0; i < f1.contents.size(); i++) {
+            System.out.println(f1.contents.get(i));
+        }
+    }
+
+    void klasorSilme(Folder f1) {
+        System.out.println("klasörü silmek istediğinizden emin misiniz?(y/n)");
+        boolean hulk;
+        do {
+            char y1 = scan.next().charAt(0);
+            if (y1 == 'y') {
+                contents.remove(f1);
+                hulk = false;
+            } else if (y1 == 'n') {
+                System.out.println("İşlem İptal Edildi.");
+                hulk = false;
+            } else {
+                System.out.println("y veya n'den birini giriniz.");
+                hulk = true;
+            }
+        } while (hulk);
+    }
+
+    void klasorYenidenAdlandırma(Folder f1) {
+
+        System.out.println("Klasörü yeniden isimlendirmek istedğinizden emin misiniz?(y/n)");
+        boolean hulk;
+        do {
+            char y1 = scan.next().charAt(0);
+            if (y1 == 'y') {
+                System.out.println("metni giriniz:");
+                String tarananMetin = scan.next();
+                ((Folder) contents.get(contents.indexOf(f1))).folderName = tarananMetin;
+                hulk = false;
+            } else if (y1 == 'n') {
+                System.out.println("İşlem İptal Edildi.");
+                hulk = false;
+            } else {
+                System.out.println("y veya n'den birini giriniz.");
+                hulk = true;
+            }
+        } while (hulk);
+
+    }
+
+    void klasorKopyalaYapistir(Folder f1) {
+        Folder kopyaFolder = new Folder("isim");
+        if (contents.contains(f1)) {
+            kopyaFolder = ((Folder) contents.get(contents.indexOf(f1)));
+            System.out.println("Klasör Kopyalandı.");
+            System.out.println("Yapıştırmak istediğiniz klasörü seçiniz: ");
+            for (int i = 0; i < contents.size(); i++) {
+                System.out.println((i + 1) + ": " + contents.get(i));
+            }
+            int girdi1 = scan.nextInt();
+            if (kopyaFolder.getClass().getSimpleName().matches(contents.get(girdi1 - 1).getClass().getSuperclass().getSimpleName())) {
+                System.out.println("Bir Dosya Seçemezsiniz!");
+            } else {
+                ((Folder) contents.get(girdi1 - 1)).contents.add(kopyaFolder);
+                System.out.println("Yapıştırma işlemi tamamlanmıştır.");
+            }
+        } else {
+            System.out.println("Olmayan klasör kopyalanamaz.");
+        }
+
+    }
+
+    void KlasorIslemleri(Object d1) {
+        ArrayList<String> işlemler = new ArrayList<String>();
+        işlemler.add("Klasörü göster");
+        işlemler.add("Silme");
+        işlemler.add("Yeniden Adlandırma");
+        işlemler.add("Kopyalama ve Yapıştırma");
+
+        System.out.println("Klasörde yapılacak olan işlemi seçiniz:");
+        for (int j = 0; j < işlemler.size(); j++) {
+            System.out.println((j + 1) + ": " + işlemler.get(j));
+        }
+        int girdi1 = scan.nextInt();
+        String SecilenIslem = işlemler.get(girdi1 - 1);
+        System.out.println("secilen islem: " + SecilenIslem);
+        if (girdi1 == 1) {
+            KlasoruGoster((Folder) d1);
+        } else if (girdi1 == 2) {
+            klasorSilme((Folder) d1);
+        } else if (girdi1 == 3) {
+            klasorYenidenAdlandırma((Folder) d1);
+        } else if (girdi1 == 4) {
+            klasorKopyalaYapistir((Folder) d1);
+        }
+        System.out.println("Klasor islemi tamamlandı.");
+    }
+
+    //DOSYA İŞLEMLERİ BAŞLANGICI//
+    void YeniDosyaOlusturma() {
+        System.out.println("Dosya ismi giriniz:");
+
+        boolean bark;
+        do {
+            String DosyaIsmi = scan.next();
+            if (!dosyastringvarMi(DosyaIsmi)) {
+                System.out.println("oluşturulacak dosya türünü seçiniz:");
+                System.out.println("a:Word");
+                System.out.println("b:Excel");
+
+                boolean hulk;
+                do {
+                    char girdi = scan.next().charAt(0);
+                    if (girdi == 'a') {
+                        Word YeniDosya = new Word(DosyaIsmi);
+                        contents.add(YeniDosya);
+                        System.out.println("dosya başarıyla oluşturuldu.");
+                        YeniDosya.setDosyaUzantisi(YeniDosya.dosyaUzantisi);
+                        hulk = false;
+                        break;
+                    } else if (girdi == 'b') {
+                        Excel YeniDosya1 = new Excel(DosyaIsmi);
+                        contents.add(YeniDosya1);
+                        System.out.println("dosya başarıyla oluşturuldu.");
+                        YeniDosya1.setDosyaUzantisi(YeniDosya1.dosyaUzantisi);
+                        hulk = false;
+                        break;
+                    } else {
+                        System.out.println("a veya b seçmeniz gerekir.");
+                        hulk = true;
+                    }
+                } while (hulk);
+                bark = false;
+
+            } else {
+                System.out.println("Aynı isimde Dosya oluşturulamaz. Yeni bir isim giriniz.");
+                bark = true;
+            }
+        } while (bark);
+
+    }
+
+    void DosyayiSil(Dosya SilinecekDosya) {
+        System.out.println("dosyayı silmek istediğinizden emin misiniz?(y/n)");
+        System.out.println("silmek için y'ye");
+        boolean hulk;
+        do {
+            char y1 = scan.next().charAt(0);
+            if (y1 == 'y') {
+                contents.remove(SilinecekDosya);
+                hulk = false;
+            } else if (y1 == 'n') {
+                System.out.println("İşlem İptal Edildi.");
+                hulk = false;
+            } else {
+                System.out.println("y veya n'den birini giriniz.");
+                hulk = true;
+            }
+        } while (hulk);
+    }
+
+    void DosyayiYenidenIsimlendir(Dosya d1) {
+
+        System.out.println("Dosyayı yeniden isimlendirmek istedğinizden emin misiniz?(y/n)");
+        boolean hulk;
+        do {
+            char y1 = scan.next().charAt(0);
+            if (y1 == 'y') {
+                System.out.println("metni giriniz:");
+                String tarananMetin = scan.next();
+                ((Dosya) contents.get(contents.indexOf(d1)
+                )).dosyaIsmi = tarananMetin;
+                hulk = false;
+            } else if (y1 == 'n') {
+                System.out.println("İşlem İptal Edildi.");
+                hulk = false;
+            } else {
+                System.out.println("y veya n'den birini giriniz.");
+                hulk = true;
+            }
+        } while (hulk);
+
+    }
+
+    void dosyaKopyalaYapistir(Dosya d2) {
+        Dosya kopyaDosya = new Dosya("isim");
+        if (contents.contains(d2)) {
+            kopyaDosya = ((Dosya) contents.get(contents.indexOf(d2)));
+            System.out.println("Dosya Kopyalandı.");
+            System.out.println("Yapıştırmak istediğiniz klasörü seçiniz: ");
+            for (int i = 0; i < contents.size(); i++) {
+                System.out.println((i + 1) + ": " + contents.get(i));
+            }
+            int girdi1 = scan.nextInt();
+            if (kopyaDosya.getClass().getSimpleName().matches(contents.get(girdi1 - 1).getClass().getSuperclass().getSimpleName())) {
+                System.out.println("Bir Dosya Seçemezsiniz!");
+            } else {
+                ((Folder) contents.get(girdi1 - 1)).contents.add(kopyaDosya);
+
+                System.out.println("Yapıştırma işlemi tamamlanmıştır.");
+            }
+        } else {
+            System.out.println("Olmayan dosya kopyalanamaz.");
+        }
+    }
+
+    void DosyaIslemleri(Object d1) {
+        ArrayList<String> işlemler = new ArrayList<String>();
+        işlemler.add("Açma");
+        işlemler.add("Silme");
+        işlemler.add("Yeniden Adlandırma");
+        işlemler.add("Kopyalama ve Yapıştırma");
+
+        System.out.println("Dosyada yapılacak olan işlemi seçiniz:");
+        for (int j = 0; j < işlemler.size(); j++) {
+            System.out.println((j + 1) + ": " + işlemler.get(j));
+        }
+        int girdi1 = scan.nextInt();
+        String SecilenIslem = işlemler.get(girdi1 - 1);
+        System.out.println("secilen islem: " + SecilenIslem);
+        if (girdi1 == 1) {
+            ((Dosya) d1).dosyayiAc();
+        } else if (girdi1 == 2) {
+            DosyayiSil((Dosya) d1);
+        } else if (girdi1 == 3) {
+            DosyayiYenidenIsimlendir((Dosya) d1);
+        } else if (girdi1 == 4) {
+            dosyaKopyalaYapistir((Dosya) d1);
+        }
+    }
+
+    //KARMA İŞLEMLER//
+    Object klasorVeyaDosyaSecme() {
+        Folder secilenKlasor = new Folder("b");
+        Dosya secilenDosya = new Dosya("a");
+        String f1 = "Folder";
+        String d1 = "Excel";
+        String d2 = "Word";
+        System.out.println("Hangi Dosyayı veya Klasoru secmek istersiniz:");
+        for (int i = 0; i < contents.size(); i++) {
+            System.out.println((i + 1) + ": " + contents.get(i));
+        }
+        int girdi = scan.nextInt();
+        boolean abo;
+        if (f1.matches(contents.get(girdi - 1).getClass().getSimpleName())) {
+            secilenKlasor = (Folder) contents.get(girdi - 1);
+            System.out.println("seçilen klasoo: " + secilenKlasor);
+            abo = false;
+            System.out.println("ilk if");
+            return secilenKlasor;
+        } else if (d1.matches(contents.get(girdi - 1).getClass().getSimpleName())) {
+            secilenDosya = (Dosya) contents.get(girdi - 1);
+            System.out.println(secilenDosya);
+            System.out.println("mal1");
+            abo = true;
+            System.out.println("else if");
+            return secilenDosya;
+        } else if (d2.matches(contents.get(girdi - 1).getClass().getSimpleName())) {
+            secilenDosya = (Dosya) contents.get(girdi - 1);
+            System.out.println(secilenDosya);
+            System.out.println("mal2");
+            abo = true;
+            return secilenDosya;
+        } else {
+            System.out.println("dödürülemedi");
+            return false;
+        }
+
+    }
+
+    void olusturma() {
+        System.out.println("Yeni klasör oluşturmak için a'ya,"
+                + " yeni dosya oluşturmak için b'ye basınız.");
+        boolean hulk;
+        do {
+            char y1 = scan.next().charAt(0);
+            if (y1 == 'a') {
+                yeniKlasorOlusturma();
+                hulk = false;
+            } else if (y1 == 'b') {
+                YeniDosyaOlusturma();
+                hulk = false;
+            } else {
+                System.out.println("a veya b'den birini seçiniz.");
+                hulk = true;
+            }
+        } while (hulk);
+        System.out.println("Dosya yada Klasör Oluşturuldu.");
+    }
+
+    void isleme() {
+        boolean abo;
+        String f1 = "Folder";
+        String d1 = "Excel";
+        String d2 = "Word";
+        Object o1 = new Object();
+        o1 = klasorVeyaDosyaSecme();
+        System.out.println("o1 " + o1.toString());
+        if (f1.matches(o1.getClass().getSimpleName())) {
+            System.out.println("klasor işlemi");
+            KlasorIslemleri(o1);
+        } else if (d1.matches(o1.getClass().getSimpleName())) {
+            System.out.println("excel dosya islemi");
+            DosyaIslemleri(o1);
+        } else if (d2.matches(o1.getClass().getSimpleName())) {
+            System.out.println("word dosya islemi");
+            DosyaIslemleri(o1);
+        } else {
+            System.out.println("mal");
+        }
+    }
+
+    void dosyaIslemSistemi() {
+        //Dosya-Klasor Olusturma Kısmı
+        AnaKlasorOlustur();
+        if (contents.isEmpty() == true) {
+            System.out.println("Hoşgeldiniz. Ana Klasör Boş.");
+        }
+        olusturma();
+        boolean hulk;
+        do {
+            System.out.println("Tekrardan dosya veya klasör oluşturmak için a'ya "
+                    + " İşlemlere geçmek için b'ye basınız.");
+            char y1 = scan.next().charAt(0);
+            if (y1 == 'a') {
+                System.out.println("devam etmek için e'ye ,iptal etmek için e dışındaki bi tuşa basınız.");
+                char y2 = scan.next().charAt(0);
+                if (y2 == 'e') {
+                    olusturma();
+                    hulk = true;
+                } else {
+                    hulk = false;
+                }
+            } else if (y1 == 'b') {
+                System.out.println("işlem başlıyor.");
+                isleme();
+                System.out.println("Seçili işlem tamamlandı.");
+                if (contents.isEmpty() == true) {
+                    System.out.println("klasör boş.");
+                    break;
+                }
+                System.out.println("Devam etmek için e'ye, iptal etmek için e dışındaki bi tuşa basınız.");
+                char y2 = scan.next().charAt(0);
+                if (y2 == 'e') {
+                    isleme();
+                    hulk = true;
+                } else {
+                    hulk = false;
+                }
+            } else {
+                System.out.println("a veya b'den birini seçiniz.");
+                hulk = true;
+            }
+        } while (hulk);
+    }
+
+    @Override
+    public String toString() {
+        return "Folder " + "name:" + folderName;
+    }
+
+}
